@@ -3,8 +3,8 @@
 import pandas as pd 
 from sqlalchemy import create_engine    
 import nltk
-# a ready-made sentiment model built into NLTK, designed for analyzing text like reviews or comments
-from nltk.sentiment.vader import SentimentIntensityAnalyzer   
+from nltk.sentiment.vader import SentimentIntensityAnalyzer   # model designed for analyzing text like reviews or comments
+
 
 nltk.download('vader_lexicon')
 
