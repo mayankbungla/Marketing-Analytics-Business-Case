@@ -1,18 +1,6 @@
 ## 📊 **ShopEasy Marketing Analytics Dashboard**  
 ### *An End-to-End Data Pipeline Project integrating **SQL**, **Python**, and **Power BI***  
 
----
-
-## 👋 **About Me**  
-
-Hey! I’m **Mayank Bungla** — a **data science enthusiast** passionate about transforming raw data into meaningful insights.  
-Currently working as an **Analyst Apprentice at eClerx**, I combine my background in **data science** with hands-on experience in **SQL**, **Python**, **Power BI**, and **Excel** to analyze, visualize, and narrate stories through data.  
-
-I’m deeply interested in building data-driven solutions that uncover customer behavior, optimize marketing strategies, and empower smarter business decisions.  
-Outside of analytics, I enjoy exploring emerging tech trends and learning new tools to strengthen my data storytelling skills.  
-
----
-
 ## 💼 **Work-Portfolio**  
 
 **Marketing Analytics Dashboard – End-to-End BI Project**  
