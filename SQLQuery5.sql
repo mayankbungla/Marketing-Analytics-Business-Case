@@ -1,5 +1,5 @@
 Select * from customer_journey
-where JourneyID = 23
+where JourneyID = 23;
 													-- CTE to identify and tag duplicate records
 
 With duplicate_record As (
@@ -25,7 +25,7 @@ order by journeyid
 
 															-- Outer query to select final cleaned and standardized data
 
-Select JourneyId,customerId,ProductID,VisitDate,Stage,Action,
+Select JourneyId,customerId, ProductID, VisitDate, Stage, Action,
 	coalesce(duration, avg_duration) as duration
 	from
 (										-- subquery to process and clean data
