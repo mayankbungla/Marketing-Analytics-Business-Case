@@ -1,7 +1,7 @@
 -- Query to clean and normalize the data
 -- Extracting views and clicks from viewsclickscombined column,
 
-select * from dbo.engagement_data
+select * from dbo.engagement_data;
 
 Select EngagementId,
 	ContentID,
