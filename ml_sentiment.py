@@ -22,3 +22,12 @@ df = pd.read_csv("fact_customer_reviews_with_sentiment.csv")
 
 print("Dataset loaded.")
 print(df.head())
+
+# Target
+df["HighRating"] = (df["Rating"] >= 4).astype(int)
+
+# Additional numeric features
+df["ReviewLength"] = df["ReviewText"].astype(str).apply(len)
+df["WordCount"] = df["ReviewText"].astype(str).apply(lambda x: len(x.split()))
+
+df[["SentimentScore", "ReviewLength", "WordCount", "HighRating"]].head()
