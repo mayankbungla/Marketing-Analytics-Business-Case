@@ -56,3 +56,8 @@ df["WordCount"] = df["ReviewText"].astype(str).apply(lambda x: len(x.split()))
 
 df[["SentimentScore", "ReviewLength", "WordCount", "HighRating"]].head()
 
+'''Why?
+SentimentScore → emotional polarity
+ReviewLength → engagement intensity
+WordCount → verbosity signal
+Sometimes angry customers write long complaints'''
