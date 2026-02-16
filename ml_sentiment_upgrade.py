@@ -1,4 +1,4 @@
-# !pip install scikit-learn transformers torch matplotlib seaborn
+# pip install pandas numpy scikit-learn transformers torch matplotlib seaborn
 
 # ==========================================================
 # ShopEasy - ML & NLP Enhancement Notebook
@@ -61,3 +61,17 @@ SentimentScore → emotional polarity
 ReviewLength → engagement intensity
 WordCount → verbosity signal
 Sometimes angry customers write long complaints'''
+
+numeric_transformer = StandardScaler()
+
+text_transformer = TfidfVectorizer(
+    max_features=3000,
+    stop_words="english"
+)
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ("num", numeric_transformer, numeric_features),
+        ("text", text_transformer, text_feature)
+    ]
+)
