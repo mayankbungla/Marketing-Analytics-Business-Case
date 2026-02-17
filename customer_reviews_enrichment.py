@@ -81,9 +81,9 @@ def sentiment_bucket(score):
         return "-1.0 to -0.5"
 
 
-# -------------------------------
+# ------------------------------
 # Apply Sentiment Logic
-# -------------------------------
+# ------------------------------
 
 # Sentiment score
 customer_reviews_df["SentimentScore"] = (
