@@ -75,3 +75,13 @@ preprocessor = ColumnTransformer(
         ("text", text_transformer, text_feature)
     ]
 )
+log_model = Pipeline([
+    ("preprocessor", preprocessor),
+    ("classifier", LogisticRegression(max_iter=1000))
+])
+
+cv_scores_log = cross_val_score(log_model, X, y, cv=5, scoring="accuracy")
+
+print("Logistic Regression Cross-Validation Accuracy:")
+print("Scores:", cv_scores_log)
+print("Mean Accuracy:", cv_scores_log.mean())
