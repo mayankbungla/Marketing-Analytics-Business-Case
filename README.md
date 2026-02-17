@@ -5,7 +5,7 @@
 
 **Marketing Analytics Dashboard – End-to-End BI Project with ML Sentiment**  
 An interactive **Power BI** project designed to analyze marketing performance and customer engagement for an e-commerce business.  
-This project demonstrates the integration of **SQL (data cleaning)**, **Python (ETL + Sentiment Analysis)**, and **Power BI (Modeling + DAX + Visualization)** to deliver actionable business insights and performance tracking.
+This project demonstrates the integration of **SQL (data cleaning)**, **Python (ETL + Sentiment Analysis)**, and **Power BI (Modeling + DAX + Visualization)** to deliver actionable business insights and performance tracking. On top of that we used **ML and NLP for sentiment analysis**
 
 ---
 

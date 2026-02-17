@@ -1,29 +1,22 @@
 # pip install pandas numpy scikit-learn transformers torch matplotlib seaborn
 
 # ==========================================================
-# ShopEasy - ML & NLP Enhancement Notebook
+# ShopEasy ML & NLP Enhancement
 # ----------------------------------------------------------
-# Goal:
-# Extend the existing BI dashboard with predictive modeling.
-#
-# We will:
-# 1. Predict whether a review will receive a high rating (>=4)
-# 2. Use structured + text features
-# 3. Compare multiple ML models
-# 4. Use cross-validation for reliability
-# 5. Compare VADER vs Transformer sentiment
+# Purpose:
+# Move from descriptive analytics to predictive modeling.
+# We want to predict whether a review will receive a high rating.
 # ==========================================================
-
 
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
 from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, roc_auc_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
@@ -33,55 +26,24 @@ from transformers import pipeline
 
 sns.set_style("whitegrid")
 
-
-
-# -------------------------------
-# Load Dataset
-# -------------------------------
-
+# Load the dataset
 df = pd.read_csv("fact_customer_reviews_with_sentiment.csv")
 
-print("Dataset loaded.")
-print(df.head())
+print("Dataset shape:", df.shape)
+df.head()
 
-# Target variable:
-# 1 = High Rating (4 or 5)
-# 0 = Low Rating (1, 2, 3)
-
+# Target variable
 df["HighRating"] = (df["Rating"] >= 4).astype(int)
 
-# Additional engineered features
+# Text-based features
 df["ReviewLength"] = df["ReviewText"].astype(str).apply(len)
 df["WordCount"] = df["ReviewText"].astype(str).apply(lambda x: len(x.split()))
 
-df[["SentimentScore", "ReviewLength", "WordCount", "HighRating"]].head()
+# Emotional intensity feature
+df["AbsSentiment"] = df["SentimentScore"].abs()
 
-'''Why?
-SentimentScore → emotional polarity
-ReviewLength → engagement intensity
-WordCount → verbosity signal
-Sometimes angry customers write long complaints'''
+# Rating deviation (how extreme rating is)
+df["RatingDeviation"] = abs(df["Rating"] - 3)
 
-numeric_transformer = StandardScaler()
-
-text_transformer = TfidfVectorizer(
-    max_features=3000,
-    stop_words="english"
-)
-
-preprocessor = ColumnTransformer(
-    transformers=[
-        ("num", numeric_transformer, numeric_features),
-        ("text", text_transformer, text_feature)
-    ]
-)
-log_model = Pipeline([
-    ("preprocessor", preprocessor),
-    ("classifier", LogisticRegression(max_iter=1000))
-])
-
-cv_scores_log = cross_val_score(log_model, X, y, cv=5, scoring="accuracy")
-
-print("Logistic Regression Cross-Validation Accuracy:")
-print("Scores:", cv_scores_log)
-print("Mean Accuracy:", cv_scores_log.mean())
+df[["SentimentScore", "AbsSentiment", "ReviewLength", 
+    "WordCount", "RatingDeviation", "HighRating"]].head()
