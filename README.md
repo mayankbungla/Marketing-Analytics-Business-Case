@@ -130,4 +130,3 @@ This project strengthened my skills in:
 
 ---
 
-⭐ *If you found this project insightful, please consider starring the repository — it motivates me to create more such projects and share my learning journey!*  

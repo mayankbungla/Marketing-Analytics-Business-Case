@@ -1,116 +1,141 @@
-# pip install nltk pandas sqlalchemy pyodbc
+# ==========================================================
+# ShopEasy - Predicting High Customer Ratings
+# ----------------------------------------------------------
+# Purpose:
+# We move beyond descriptive analytics and try to predict
+# whether a customer review will receive a high rating (>=4).
+#
+# We use:
+# - Sentiment score (emotional signal)
+# - Review length (engagement signal)
+# - Word count (verbosity signal)
+# - TF-IDF text features (actual words used)
+#
+# We compare multiple ML models and use cross-validation
+# to ensure reliability.
+# ==========================================================
+
 
 import pandas as pd
-from sqlalchemy import create_engine
-import nltk
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-nltk.download("vader_lexicon")
-
-
-# -------------------------------
-# Connect to SQL Server
-# -------------------------------
-
-engine = create_engine(
-    "mssql+pyodbc://FUSION-00\\SQLEXPRESS/PortfolioProject_MarketingAnalytics"
-    "?driver=ODBC+Driver+17+for+SQL+Server&trusted_connection=yes"
-)
-
-query = """
-SELECT ReviewID, CustomerID, ProductID, ReviewDate, Rating, ReviewText 
-FROM customer_reviews
-"""
-
-customer_reviews_df = pd.read_sql(query, engine)
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
 
 
-# -------------------------------
-# Initialize Sentiment Analyzer
-# -------------------------------
+# ----------------------------------------------------------
+# Step 1: Load Enriched Dataset
+# ----------------------------------------------------------
+# This dataset already contains SentimentScore from VADER
 
-sia = SentimentIntensityAnalyzer()
+df = pd.read_csv("fact_customer_reviews_with_sentiment.csv")
 
-
-# Calculate compound sentiment score
-def calculate_sentiment(text):
-    # Convert to string in case of nulls
-    text = str(text)
-    score = sia.polarity_scores(text)
-    return score["compound"]
+print("Dataset Loaded")
+print(df.head())
 
 
-# Categorize sentiment using both text score and rating
-def categorize_sentiment(score, rating):
+# ----------------------------------------------------------
+# Step 2: Create Target Variable
+# ----------------------------------------------------------
+# 1 = High Rating (4 or 5)
+# 0 = Low Rating (1,2,3)
 
-    if score > 0.05:
-        if rating >= 4:
-            return "Positive"
-        elif rating == 3:
-            return "Mixed Positive"
-        else:
-            return "Mixed Negative"
-
-    elif score < -0.05:
-        if rating <= 2:
-            return "Negative"
-        elif rating == 3:
-            return "Mixed Negative"
-        else:
-            return "Mixed Positive"
-
-    else:
-        if rating >= 4:
-            return "Positive"
-        elif rating <= 2:
-            return "Negative"
-        else:
-            return "Neutral"
+df["HighRating"] = (df["Rating"] >= 4).astype(int)
 
 
-# Bucket sentiment score into readable ranges
-def sentiment_bucket(score):
+# ----------------------------------------------------------
+# Step 3: Feature Engineering
+# ----------------------------------------------------------
+# We create additional behavioral features
 
-    if score >= 0.5:
-        return "0.5 to 1.0"
-    elif 0.0 <= score < 0.5:
-        return "0.0 to 0.49"
-    elif -0.5 <= score < 0.0:
-        return "-0.49 to 0.0"
-    else:
-        return "-1.0 to -0.5"
+df["ReviewLength"] = df["ReviewText"].astype(str).apply(len)
+df["WordCount"] = df["ReviewText"].astype(str).apply(lambda x: len(x.split()))
+df["AbsSentiment"] = df["SentimentScore"].abs()
 
-
-# ------------------------------
-# Apply Sentiment Logic
-# ------------------------------
-
-# Sentiment score
-customer_reviews_df["SentimentScore"] = (
-    customer_reviews_df["ReviewText"].apply(calculate_sentiment)
-)
-
-# Sentiment category (using score + rating)
-customer_reviews_df["SentimentCategory"] = [
-    categorize_sentiment(score, rating)
-    for score, rating in zip(
-        customer_reviews_df["SentimentScore"],
-        customer_reviews_df["Rating"]
-    )
+# Features used for modeling
+numeric_features = [
+    "SentimentScore",
+    "AbsSentiment",
+    "ReviewLength",
+    "WordCount"
 ]
 
-# Sentiment bucket
-customer_reviews_df["SentimentBucket"] = (
-    customer_reviews_df["SentimentScore"].apply(sentiment_bucket)
+text_feature = "ReviewText"
+
+X = df[numeric_features + [text_feature]]
+y = df["HighRating"]
+
+
+# ----------------------------------------------------------
+# Step 4: Train/Test Split
+# ----------------------------------------------------------
+# We separate data so we can test on unseen examples
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
 )
 
 
-print(customer_reviews_df.head())
+# ----------------------------------------------------------
+# Step 5: Preprocessing
+# ----------------------------------------------------------
+# Numeric features → scaled
+# Text feature → TF-IDF transformation
 
-# Save final dataset =
-customer_reviews_df.to_csv(
-    "fact_customer_reviews_with_sentiment.csv",
-    index=False
+numeric_transformer = StandardScaler()
+
+text_transformer = TfidfVectorizer(
+    max_features=4000,
+    stop_words="english",
+    ngram_range=(1,2)
 )
 
-print("Sentiment enrichment completed successfully.")
+preprocessor = ColumnTransformer(
+    transformers=[
+        ("num", numeric_transformer, numeric_features),
+        ("text", text_transformer, text_feature)
+    ]
+)
+
+
+# ----------------------------------------------------------
+# Step 6: Logistic Regression Model
+# ----------------------------------------------------------
+
+log_model = Pipeline([
+    ("preprocessor", preprocessor),
+    ("classifier", LogisticRegression(max_iter=1000))
+])
+
+log_model.fit(X_train, y_train)
+
+log_preds = log_model.predict(X_test)
+log_probs = log_model.predict_proba(X_test)[:, 1]
+
+print("\nLogistic Regression Results")
+print("ROC-AUC:", roc_auc_score(y_test, log_probs))
+print(classification_report(y_test, log_preds))
+
+
+# ----------------------------------------------------------
+# Step 7: Random Forest Model
+# ----------------------------------------------------------
+
+rf_model = Pipeline([
+    ("preprocessor", preprocessor),
+    ("classifier", RandomForestClassifier(
+        n_estimators=300,
+        random_state=42
+    ))
+])
+
+rf_model.fit(X_train, y_train)
+
