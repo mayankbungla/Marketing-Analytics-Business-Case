@@ -1,11 +1,19 @@
 # pip install pandas numpy scikit-learn transformers torch matplotlib seaborn
 
 # ==========================================================
-# ShopEasy ML & NLP Enhancement
+# ShopEasy - End-to-End ML & NLP Enhancement
 # ----------------------------------------------------------
-# Purpose:
-# Move from descriptive analytics to predictive modeling.
-# We want to predict whether a review will receive a high rating.
+# Objective:
+# Predict whether a customer review will receive a high rating (>=4)
+# using structured features and text features.
+#
+# This notebook includes:
+# - EDA
+# - Feature Engineering
+# - Multiple ML models
+# - Cross-validation
+# - Hyperparameter tuning
+# - Model evaluation
 # ==========================================================
 
 import pandas as pd
@@ -16,34 +24,46 @@ import seaborn as sns
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, roc_auc_score
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 
-from transformers import pipeline
-
 sns.set_style("whitegrid")
 
-# Load the dataset
 df = pd.read_csv("fact_customer_reviews_with_sentiment.csv")
 
-print("Dataset shape:", df.shape)
+print("Shape:", df.shape)
 df.head()
 
-# Target variable
-df["HighRating"] = (df["Rating"] >= 4).astype(int)
+# Distribution of ratings
+sns.countplot(x="Rating", data=df)
+plt.title("Rating Distribution")
+plt.show()
 
-# Text-based features
+# Distribution of sentiment score
+sns.histplot(df["SentimentScore"], kde=True)
+plt.title("Sentiment Score Distribution")
+plt.show()
+
+# Correlation check
+df["HighRating"] = (df["Rating"] >= 4).astype(int)
+print(df[["SentimentScore", "Rating", "HighRating"]].corr())
+
+
 df["ReviewLength"] = df["ReviewText"].astype(str).apply(len)
 df["WordCount"] = df["ReviewText"].astype(str).apply(lambda x: len(x.split()))
-
-# Emotional intensity feature
 df["AbsSentiment"] = df["SentimentScore"].abs()
 
-# Rating deviation (how extreme rating is)
-df["RatingDeviation"] = abs(df["Rating"] - 3)
+numeric_features = [
+    "SentimentScore",
+    "AbsSentiment",
+    "ReviewLength",
+    "WordCount"
+]
 
-df[["SentimentScore", "AbsSentiment", "ReviewLength", 
-    "WordCount", "RatingDeviation", "HighRating"]].head()
+text_feature = "ReviewText"
+
+X = df[numeric_features + [text_feature]]
+y = df["HighRating"]
