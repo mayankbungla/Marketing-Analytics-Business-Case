@@ -67,3 +67,17 @@ text_feature = "ReviewText"
 
 X = df[numeric_features + [text_feature]]
 y = df["HighRating"]
+numeric_transformer = StandardScaler()
+
+text_transformer = TfidfVectorizer(
+    max_features=5000,
+    stop_words="english",
+    ngram_range=(1,2)
+)
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ("num", numeric_transformer, numeric_features),
+        ("text", text_transformer, text_feature)
+    ]
+)
