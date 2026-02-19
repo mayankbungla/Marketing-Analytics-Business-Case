@@ -1,19 +1,11 @@
-# pip install pandas numpy scikit-learn transformers torch matplotlib seaborn
-
 # ==========================================================
-# ShopEasy - End-to-End ML & NLP Enhancement
+# ShopEasy Customer Intelligence System
 # ----------------------------------------------------------
-# Objective:
-# Predict whether a customer review will receive a high rating (>=4)
-# using structured features and text features.
-#
-# This notebook includes:
-# - EDA
-# - Feature Engineering
-# - Multiple ML models
-# - Cross-validation
-# - Hyperparameter tuning
-# - Model evaluation
+# This notebook builds:
+# 1. Complaint Topic Modeling
+# 2. Dissatisfaction Risk Scoring
+# 3. Product-Level Risk Analysis
+# 4. Sentiment Trend & Anomaly Detection
 # ==========================================================
 
 import pandas as pd
@@ -21,63 +13,39 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
-from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
-from sklearn.preprocessing import StandardScaler
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
+from sklearn.decomposition import LatentDirichletAllocation
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
 
 sns.set_style("whitegrid")
 
 df = pd.read_csv("fact_customer_reviews_with_sentiment.csv")
 
-print("Shape:", df.shape)
-df.head()
+df["ReviewDate"] = pd.to_datetime(df["ReviewDate"])
 
-# Distribution of ratings
-sns.countplot(x="Rating", data=df)
-plt.title("Rating Distribution")
-plt.show()
+print("Dataset shape:", df.shape)
+print(df.head())
 
-# Distribution of sentiment score
-sns.histplot(df["SentimentScore"], kde=True)
-plt.title("Sentiment Score Distribution")
-plt.show()
+#COMPLAINT TOPIC MODELING
 
-# Correlation check
-df["HighRating"] = (df["Rating"] >= 4).astype(int)
-print(df[["SentimentScore", "Rating", "HighRating"]].corr())
-
-
-df["ReviewLength"] = df["ReviewText"].astype(str).apply(len)
-df["WordCount"] = df["ReviewText"].astype(str).apply(lambda x: len(x.split()))
-df["AbsSentiment"] = df["SentimentScore"].abs()
-
-numeric_features = [
-    "SentimentScore",
-    "AbsSentiment",
-    "ReviewLength",
-    "WordCount"
-]
-
-text_feature = "ReviewText"
-
-X = df[numeric_features + [text_feature]]
-y = df["HighRating"]
-numeric_transformer = StandardScaler()
-
-text_transformer = TfidfVectorizer(
-    max_features=5000,
+vectorizer = TfidfVectorizer(
+    max_features=3000,
     stop_words="english",
     ngram_range=(1,2)
 )
 
-preprocessor = ColumnTransformer(
-    transformers=[
-        ("num", numeric_transformer, numeric_features),
-        ("text", text_transformer, text_feature)
-    ]
-)
+X_text = vectorizer.fit_transform(df["ReviewText"].astype(str))
+lda = LatentDirichletAllocation(n_components=5, random_state=42)
+lda.fit(X_text)
+
+feature_names = vectorizer.get_feature_names_out()
+
+def print_topics(model, feature_names, n_top_words=10):
+    for topic_idx, topic in enumerate(model.components_):
+        print(f"\nTopic {topic_idx + 1}:")
+        print(", ".join([feature_names[i] for i in topic.argsort()[:-n_top_words - 1:-1]]))
+
+print_topics(lda, feature_names)
