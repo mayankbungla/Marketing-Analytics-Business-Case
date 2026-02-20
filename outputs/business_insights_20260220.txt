@@ -1,0 +1,4 @@
+Product 20 shows the highest negative sentiment (32.2%). Immediate investigation recommended.
+Product 15 has the strongest customer satisfaction (52.2%). Consider promoting this product.
+Most common customer complaint category: No Issue Detected.
+Recommended Action: Focus on fixing delivery and quality issues to improve conversion rates.
