@@ -1,22 +1,22 @@
-## 📊 **ShopEasy Marketing Analytics Dashboard**  
-### *An End-to-End Data Pipeline Project integrating **SQL**, **Python**, **Power BI**, NLP, and Cloud Deployment*  
+## 📊 **ShopEasy Marketing Analytics & AI Product Intelligence System**  
+### *An End-to-End Data Pipeline integrating **SQL**, **Python**, **Power BI**, NLP, and Cloud Deployment*  
 
 ---
 
 ## 💼 **Work-Portfolio**  
 
-**Marketing Analytics Dashboard – End-to-End BI Project with ML Sentiment & Product Intelligence**  
+**Marketing Analytics Dashboard – End-to-End BI Project with AI-Driven Sentiment Intelligence**
 
-An interactive **Power BI** project designed to analyze marketing performance and customer engagement for an e-commerce business.  
+An interactive analytics solution designed to analyze marketing performance, customer engagement, and product sentiment for an e-commerce business.
 
-This project demonstrates the integration of:
+This project integrates:
 
-- **SQL (data cleaning & modeling)**  
-- **Python (ETL + Sentiment Analysis + Intelligence Engine)**  
+- **SQL (Data Cleaning & Modeling)**  
+- **Python (ETL + NLP Sentiment Analysis + Product Intelligence Engine)**  
 - **Power BI (Modeling + DAX + Visualization)**  
-- **Streamlit (Interactive AI Product Intelligence Web App)**  
+- **Streamlit (Cloud-Deployed AI Product Intelligence Web App)**  
 
-On top of traditional BI reporting, this project was extended into a **cloud-deployed Product Intelligence System**, transforming raw customer reviews into structured, actionable business insights.
+What began as a Business Intelligence dashboard evolved into a **deployed AI-powered Product Intelligence System** that converts raw customer feedback into measurable product health insights and automated business recommendations.
 
 🌐 **Live Web Application:**  
 https://marketing-analytics-business-case-tegnugeasnfzqbphxsjjnl.streamlit.app/
@@ -26,18 +26,16 @@ https://marketing-analytics-business-case-tegnugeasnfzqbphxsjjnl.streamlit.app/
 ## 🧭 **Project Overview**
 
 ### **ShopEasy Marketing Analytics Dashboard**  
-*Turning Marketing Data into Strategic Insights*  
+*Turning Marketing Data and Customer Reviews into Strategic Insights*  
 
-This end-to-end analytics project explores how marketing data can be used to improve **conversion rates**, **customer engagement**, and **product sentiment**.  
+This end-to-end analytics project explores how structured marketing data and unstructured customer reviews can be combined to improve:
 
-The dashboard provides a **360° view of marketing performance**, helping stakeholders make informed, data-backed decisions.
+- **Conversion rates**
+- **Customer engagement**
+- **Product sentiment & satisfaction**
+- **Operational performance**
 
-The project further evolved into an **AI-powered Product Health & Sentiment Intelligence System**, allowing business users to:
-
-- Rank products by sentiment health  
-- Detect root causes of negative reviews  
-- Trigger risk alerts  
-- Generate automated business recommendations  
+The dashboard provides a **360° analytical ecosystem**, while the extended Streamlit application enables real-time product health monitoring and executive-level decision support.
 
 ---
 
@@ -51,96 +49,118 @@ The project further evolved into an **AI-powered Product Health & Sentiment Inte
   - *Goal:* Determine which types of content drive the highest engagement.  
   - *Insight:* Analyze interaction levels across marketing content to refine engagement strategy.  
 
-- **Improve Customer Feedback Scores**  
-  - *Goal:* Understand customer review patterns and provide actionable feedback.  
-  - *Insight:* Identify recurring positive and negative sentiment trends to guide product and service improvement.  
+- **Improve Customer Feedback Intelligence**  
+  - *Goal:* Transform customer reviews into structured, actionable insights using NLP.  
+  - *Insight:* Identify recurring positive and negative sentiment trends and detect operational root causes.  
 
 ---
 
-## 📋 **Dashboard Highlights**
+## 📋 **Dashboard Highlights (Power BI Layer)**
 
 | **Section** | **Description** |
 |--------------|-----------------|
 | **KPI Cards** | Display overall **Conversion Rate (9.6%)**, **Total Views**, **Clicks**, **Likes**, and **Average Rating**. |
 | **Conversion Details** | Analyze conversion performance by **Month** and **Product** using dynamic slicers. |
 | **Engagement Insights** | Track **social media metrics** (views, clicks, likes) and visualize trends over time. |
-| **Customer Reviews** | Incorporate **NLP-based sentiment analysis** to classify customer feedback into Positive, Negative, or Neutral categories. |
+| **Customer Reviews** | Incorporate **NLP-based sentiment analysis** to classify feedback into Positive, Negative, or Neutral categories. |
 | **Product-Level Analysis** | Identify **top-performing products** and analyze underperformers based on conversion rate and sentiment. |
 | **Dynamic Filters** | Interactive **Year, Month, and Product Name slicers** for flexible exploration. |
 
 ---
 
-## 🚀 **Advanced Extension – AI Product Intelligence Web Application**
+# 🚀 **Advanced Extension – AI Product Intelligence Web Application**
 
-Beyond Power BI, an additional analytics layer was built using **Python + Streamlit**, which includes:
+To enhance decision-making beyond static dashboards, an additional **Product Intelligence Engine** was built using Python and deployed via Streamlit Cloud.
 
-- 📊 **Product Health Score Model**  
-  - Health Score = **Positive Review % − Negative Review %**
+### Key Features:
 
-- 📌 **Root Cause Detection Engine**  
-  - Categorizes complaints into:
-    - Delivery Issues  
-    - Product Quality  
-    - Pricing Issues  
-    - Customer Service  
-    - Performance Issues  
+### 📊 1️⃣ Product Health Score System
+- Computed using:  
+  **Health Score = Positive Review % − Negative Review %**
+- Enables ranking products by overall sentiment strength
+- Identifies underperforming products instantly
 
-- 🚨 **Automated Risk Alert System**  
-  - Flags products with high negative sentiment percentage  
+### 🧠 2️⃣ NLP Sentiment Enrichment
+- Applied **VADER Sentiment Analysis (NLTK)**
+- Generated:
+  - Sentiment Score
+  - Sentiment Category
+  - Sentiment Buckets
+- Converted unstructured review text into structured features
 
-- 📈 **Interactive Product Deep-Dive Analysis**  
-  - Compare sentiment distribution  
-  - View complaint category breakdown  
-  - Visualize performance using gauge metrics  
+### 📌 3️⃣ Root Cause Detection Engine
+Implemented rule-based classification to detect dominant complaint themes:
 
-- 🧠 **AI-Driven Business Recommendations**  
-  - Suggests targeted improvements based on dominant issue category  
+- Delivery Issues  
+- Product Quality  
+- Pricing Concerns  
+- Customer Service Problems  
+- Performance & Usability Issues  
 
-This transforms the project from a reporting dashboard into a **decision-support system**.
+This transforms qualitative reviews into measurable operational signals.
+
+### 🚨 4️⃣ Automated Alert System
+- Flags products where negative sentiment exceeds risk thresholds
+- Enables proactive intervention before performance declines further
+
+### 📈 5️⃣ Interactive Product Deep Dive
+Business stakeholders can:
+- Select any product
+- View sentiment distribution
+- Analyze complaint breakdown
+- Monitor health score gauge
+- Compare positive vs negative percentages
+
+### 📄 6️⃣ Downloadable Executive Product Report
+From the deployed cloud application, users can:
+- Generate an **AI-style executive summary**
+- Download a structured product performance report
+- Share insights directly with leadership teams
+
+This converts analytics into a **decision-ready output**, not just visualization.
 
 ---
 
 ## 🧠 **Key Learnings & Techniques**
 
 - Developed **custom DAX measures** for KPIs and conversion analysis.  
-- Integrated **SQL and Python** workflows for **ETL and sentiment scoring**.  
-- Applied **VADER Sentiment Analysis** using NLTK to classify review polarity.  
-- Built a structured **Product Health Score model** for performance ranking.  
-- Implemented **rule-based complaint classification logic**.  
-- Designed interactive dashboards in both **Power BI and Streamlit**.  
-- Used **data storytelling principles** for enhanced visual clarity and user engagement.  
-- Built a **Star Schema model** for optimized Power BI relationships and filtering.  
-- Designed clean and minimal **dashboard UI** focusing on intuitive interaction.  
+- Integrated **SQL and Python workflows** for ETL and sentiment scoring.  
+- Applied **VADER Sentiment Analysis** using NLTK for review polarity classification.  
+- Engineered a structured **Product Health Score model** for performance ranking.  
+- Designed a **rule-based complaint detection system** for root cause analytics.  
+- Built a scalable **Product Intelligence Engine** on top of BI reporting.  
+- Developed and deployed an interactive **Streamlit cloud application**.  
+- Implemented executive-level reporting capabilities within the web app.  
+- Applied strong **data storytelling principles** for business readability.  
 
 ---
 
 ## 🧩 **Tools & Technologies**
 
 - **SQL Server** – Data cleaning & transformation  
-- **Python (Pandas, NLTK, Plotly)** – ETL pipeline, sentiment analysis & intelligence logic  
+- **Python (Pandas, NLTK, Plotly)** – ETL, NLP & intelligence logic  
 - **Power BI Desktop** – Visualization, Modeling, and DAX  
 - **Power Query Editor** – Data transformation & loading  
-- **Streamlit** – Interactive AI product intelligence application  
+- **Streamlit** – Interactive AI product intelligence web application  
 - **GitHub** – Version control  
 - **Streamlit Cloud** – Deployment  
-- **Excel / CSV** – Supporting dataset for validation  
 
 ---
 
-## 🧱 **Project Architecture**
+## 🧱 **Complete Project Architecture**
 
 ```
-📥 Data Source
-     ↓
+📥 SQL Server (Raw Marketing & Review Data)
+        ↓
 🗄️ SQL Cleaning & Preprocessing
-     ↓
-🐍 Python ETL & Sentiment Analysis
-     ↓
+        ↓
+🐍 Python ETL & NLP Sentiment Enrichment
+        ↓
 📊 Product Intelligence Engine (Health Score + Root Cause Detection)
-     ↓
+        ↓
 📊 Power BI Modeling (DAX + Relationships)
-     ↓
-🌐 Streamlit AI Web Application (Cloud Deployment)
+        ↓
+🌐 Streamlit AI Product Intelligence Web App (Cloud Deployment)
 ```
 
 ---
@@ -148,12 +168,11 @@ This transforms the project from a reporting dashboard into a **decision-support
 ## 💡 **Business Insights**
 
 - 🏒 **Hockey Stick** achieved the **highest conversion rate (15.5%)**, followed by **Ski Boots** and **Baseball Glove**.  
-- 📉 **February** recorded a noticeable dip in conversions, revealing possible **seasonal or campaign gaps**.  
-- 💬 Over **61% of customer reviews** reflected **positive sentiment**, suggesting strong customer satisfaction.  
-- ❤️ Positive **sentiment score** directly correlated with higher **product ratings**, indicating customer trust.  
-- 📱 **Social media performance** showed high views but **low conversion (4.6%)**, signaling scope for **content optimization**.  
+- 📉 **February** recorded a noticeable dip in conversions, revealing possible seasonal or campaign gaps.  
+- 💬 Over **61% of customer reviews** reflected positive sentiment.  
+- ❤️ Positive sentiment scores strongly correlated with higher product ratings.  
 - 📦 Delivery and Product Quality were the most frequent negative review themes.  
-- 🚨 Health Score metric enabled quick identification of at-risk products.  
+- 🚨 Health Score system enabled rapid identification of at-risk products.  
 
 ---
 
@@ -178,14 +197,13 @@ This transforms the project from a reporting dashboard into a **decision-support
 This project strengthened my skills in:
 
 - Building **end-to-end BI pipelines** integrating SQL, Python, and Power BI.  
-- Designing **analytical data models** aligned with business KPIs.  
-- Creating **DAX-driven metrics** for dynamic dashboards.  
-- Implementing **sentiment analysis** for real-world marketing data.  
-- Designing a structured **Product Intelligence scoring system**.  
-- Developing and deploying an interactive analytics application to the cloud.  
-- Enhancing **visual storytelling** through clean, interactive dashboard design.  
+- Designing structured analytical models aligned with business KPIs.  
+- Implementing **NLP-based sentiment intelligence systems**.  
+- Engineering measurable product health scoring frameworks.  
+- Transforming analytics into **decision-support systems**.  
+- Deploying production-ready analytics applications to the cloud.  
 
-The project demonstrates the ability to move from raw data to a deployed, AI-enhanced business intelligence solution.
+The project demonstrates the ability to move from raw data to a deployed, AI-enhanced business intelligence ecosystem — combining **data engineering, NLP, analytics modeling, and cloud deployment** into one cohesive solution.
 
 ---
 
