@@ -201,8 +201,6 @@ st.dataframe(issue_counts, use_container_width=True)
 
 st.header("🧠 Strategic Business Recommendations")
 
-# ================= GROWTH STRATEGY BUTTON =================
-
 if st.button("🚀 Reveal Growth & Scaling Strategies"):
 
     prompt = f"""
